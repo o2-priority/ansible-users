@@ -29,6 +29,12 @@
   with_items: "{{ users_add_users }}"
   when: users_add_users
 
+- name: Set permissions on home directory (CIS Benchmark 6.2.8)
+  file:
+    path: "{{ item.home|default('/home/'+item.username) }}"
+    mode: 0750
+  with_items: "{{ users_add_users }}"
+
 - name: Add authorized_keys for users
   authorized_key:
     user: "{{ item.0.username }}"
