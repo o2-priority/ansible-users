@@ -38,7 +38,7 @@ password.
       - username: chika
 
   roles:
-    - wunzeco.users
+    - o2-priority.users
 ```
 
 

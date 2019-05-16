@@ -1,30 +1,35 @@
 ---
 driver:
-  name: vagrant
+  name: docker
 
 provisioner:
   name: ansible_playbook
   hosts: test-kitchen
-  require_pip: true
+  require_chef_for_busser: false
+  require_ansible_omnibus: false
   require_ansible_repo: false
-  ansible_version:  2.4.4.0
-  ansible_verbose:  false
+  ansible_version: 2.5.6.0
+  ansible_verbose: false
   ansible_verbosity: 2
-  ansible_diff: true
   ansible_extra_flags: <%= ENV['ANSIBLE_EXTRA_FLAGS'] %>
   ignore_paths_from_root:
     - .kitchen
 
 platforms:
-  - name: ubuntu-14.04
-    driver:
-      box: ubuntu/trusty64
   - name: ubuntu-16.04
-    driver:
-      box: ubuntu/xenial64
+    driver_config:
+      image: geerlingguy/docker-ubuntu1604-ansible
+      platform: ubuntu
+      provision_command:
+        - apt-get install -y apt-transport-https
   - name: centos-7.2
-    driver:
-      box: bento/centos-7.2
+    driver_config:
+      image: geerlingguy/docker-centos7-ansible
+      platform: centos
+
+verifier:
+  name: serverspec
+  default_pattern: true
 
 suites:
   - name: default
