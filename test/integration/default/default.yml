@@ -24,5 +24,12 @@
       - comment:  "devops group privileges"
         spec:     "%devops ALL=(ALL) NOPASSWD: ALL"
 
+  pre_tasks:
+    - name: change default password expiry for new accounts to check it is correctly set when applying role
+      lineinfile:
+        path: /etc/login.defs
+        regexp: '^PASS_MAX_DAYS'
+        line: PASS_MAX_DAYS 30
+
   roles:
     - ansible-users
