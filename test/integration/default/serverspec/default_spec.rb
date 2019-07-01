@@ -9,6 +9,8 @@ describe user('ogonna') do
   it { should have_home_directory '/home/ogonna' }
   it { should have_login_shell '/bin/bash' }
   it { should have_authorized_key ssh_key_ogonna }
+  its(:maximum_days_between_password_change) { should eq 99999 }
+  its(:minimum_days_between_password_change) { should eq 0 }
 end
 
 describe user('adaku') do
